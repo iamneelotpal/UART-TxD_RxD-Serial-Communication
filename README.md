@@ -1,1 +1,1 @@
-# UART-TxD_RxD-Serial-Communication
+# UART-Tx_Rx-Serial-Communication
