@@ -1,4 +1,4 @@
-// 
+// Top Modeule : Duplex communication
 
 module Duplex (
     input   wire         reset_n,       //  Active low reset.
