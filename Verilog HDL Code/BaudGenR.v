@@ -1,4 +1,4 @@
-// Baudrate generator Module : Calculations done for 50MHz clock frequency
+// Baudrate generator Module (for Receiver) : Calculations done for 50MHz clock frequency
 
 module BaudGenR(
     input wire         reset_n,     //  Active low reset.
