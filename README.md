@@ -21,11 +21,17 @@ In UART, the mode of transmission is in the form of a packet. The piece that con
 ### Start Bit
 The UART data transmission line is normally held at a high voltage level when it’s not transmitting data. To start the transfer of data, the transmitting UART pulls the transmission line from high to low for one (1) clock cycle. When the receiving UART detects the high to low voltage transition, it begins reading the bits in the data frame at the frequency of the baud rate.<br />
 
+![335962-fig-04](https://github.com/user-attachments/assets/02e363d5-2bc7-4e7e-b763-4821fb59dea3)
+
 ### Data Frame
 The data frame contains the actual data being transferred. It can be five (5) bits up to eight (8) bits long if a parity bit is used. If no parity bit is used, the data frame can be nine (9) bits long. In most cases, the data is sent with the least significant bit first.<br />
 
+![335962-fig-05](https://github.com/user-attachments/assets/afeaaf55-4b57-4ef7-87f5-ca974dbf7f83)
+
 ### Parity
 Parity describes the evenness or oddness of a number. The parity bit is a way for the receiving UART to tell if any data has changed during transmission. Bits can be changed by electromagnetic radiation, mismatched baud rates, or long-distance data transfers.<br />
+
+![335962-fig-06](https://github.com/user-attachments/assets/2f5155e5-8121-4274-9072-6f300de2e6e1)
 
 After the receiving UART reads the data frame, it counts the number of bits with a value of 1 and checks if the total is an even or odd number. If the parity bit is a 0 (even parity), the 1 or logic-high bit in the data frame should total to an even number. If the parity bit is a 1 (odd parity), the 1 bit or logic highs in the data frame should total to an odd number.<br />
 
@@ -34,7 +40,19 @@ When the parity bit matches the data, the UART knows that the transmission was f
 ### Stop Bits
 To signal the end of the data packet, the sending UART drives the data transmission line from a low voltage to a high voltage for one (1) to two (2) bit(s) duration.<br />
 
+![335962-fig-07](https://github.com/user-attachments/assets/6292b954-227c-4a5f-8c98-cf9029cf8efd)
 
+## Steps 
 
+### First: 
+The transmitting UART receives data in parallel from the data bus.
+### Second: 
+The transmitting UART adds the start bit, parity bit, and the stop bit(s) to the data frame.
+### Third:
+The entire packet is sent serially starting from start bit to stop bit from the transmitting UART to the receiving UART. The receiving UART samples the data line at the preconfigured baud rate.
+### Fourth: 
+The receiving UART discards the start bit, parity bit, and stop bit from the data frame.
+### Fifth:
+The receiving UART converts the serial data back into parallel and transfers it to the data bus on the receiving end.
 
 
