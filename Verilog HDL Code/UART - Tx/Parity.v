@@ -1,4 +1,3 @@
-
 // Module for Simple-parity-check unit : uses Odd, Even and No Parity methods.
 
 module Parity(
