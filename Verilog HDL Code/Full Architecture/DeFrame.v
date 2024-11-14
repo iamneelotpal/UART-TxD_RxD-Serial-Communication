@@ -1,4 +1,3 @@
-
 // Module for separating the frame into Data bits, Parity bit, Start and Stop bits.
 
 module DeFrame(
