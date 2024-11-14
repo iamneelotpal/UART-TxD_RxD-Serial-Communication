@@ -15,6 +15,8 @@ The UART interface ***does not use a clock signal to synchronize the transmitter
 
 In UART, the mode of transmission is in the form of a packet. The piece that connects the transmitter and receiver includes the creation of serial packets and controls those physical hardware lines. A packet consists of a start bit, data frame, a parity bit, and stop bits.<br />
 
+![Data Transmission Frame](![alt text](https://github.com/[username]/[reponame]/blob/[branch]/image.jpg?raw=true))
+
 ### Start Bit
 The UART data transmission line is normally held at a high voltage level when it’s not transmitting data. To start the transfer of data, the transmitting UART pulls the transmission line from high to low for one (1) clock cycle. When the receiving UART detects the high to low voltage transition, it begins reading the bits in the data frame at the frequency of the baud rate.<br />
 
