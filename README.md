@@ -55,4 +55,72 @@ The receiving UART discards the start bit, parity bit, and stop bit from the dat
 ### Fifth:
 The receiving UART converts the serial data back into parallel and transfers it to the data bus on the receiving end.
 
+## Architecture
+
+### UART Transmission Module
+![UART_Tx](https://github.com/user-attachments/assets/7a7a7eb8-c5ef-4ffc-9651-01c2040efc42)
+
+#### Baud Rate Generator Unit
+
+***Baud Rate*** is the rate at which the number of signal elements or changes to the signal occurs per second when it passes through a transmission medium. The higher the baud rate, the faster the data is sent/received.
+This unit supports four possible baud rates:
+
+*   Baud rate of 2400 bps
+*   Baud rate of 4800 bps
+*   Baud rate of 9600 bps
+*   Baud rate of 19200 bps
+  
+**Notes:**
+*   The latter two are the most common.
+*   The values of the timer calculated for the baud rates are for the **50MHz** system's clock, those values need to be re-calculated for different clock frequencies.
+
+  #### Parity Bit Unit
+
+***Parity bit*** is a method of checking if the data packet is sent correctly by calculating the number of 1's in the packet and providing the parity bit according to the ***parity type***, then checking if the Received data packet has the same parity bit.
+
+This unit supports three parity types:
+*   No Parity
+*   Odd Parity
+*   even Parity
+  
+**Notes:**
+*   This method can discover a one-bit error, if two bits are flipped concurrently the packet will be considered the correct packet.
+*   The default case is that there is no parity bit.
+
+  #### PISO Unit
+
+***Parallel-Input-Serial-Output*** shift register, this unit is responsible for converting the data from a parallel bus to serial data in a single wire, it is controlled by an ***FSM logic*** to do so, It takes about 11 baud_clk cycles to send the whole data packet.
+It is the heart of the transmission unit.
+
+##### Tx FSM
+![Tx_FSM](https://github.com/user-attachments/assets/da9abe5a-1f78-4a7f-986c-4f45f33453c5)
+**Notes:**
+*   The **Done Flag** indicates whether the transmission is done or not, to enable another packet to get ready to be sent.
+*   The **Active Flag** indicates whether the transmitter is in progress or an **idle state**.
+
+
+### UART Receiver Module
+![UART_Rx](https://github.com/user-attachments/assets/059de3c0-cda3-4cb4-92f7-975c4f02bb05)
+
+#### Oversampling Unit
+It is a ***Baud Rate Generator***, but uses a sampling rate of 16 times the baud rate, which means that each serial bit is sampled 16 times, this methodology shifts the time to read the data to the center of the bit.
+
+#### SIPO Unit
+
+***Serial-Input-Parallel-Output*** shift register, this unit is responsible for converting the data from serial data to the parallel bus, it is controlled by an ***FSM logic*** to do so, It takes about 11 baud_clk cycles to Receive the whole data packet.
+It is the heart of the Receiver unit.
+
+##### Rx FSM
+![Rx_FSM](https://github.com/user-attachments/assets/27185ab7-6064-4fc1-95d5-b3967aa3b2c0)
+
+#### DeFrame Unit
+De-Frame unit is responsible for separating the frame into four main parts: **Strat bit**, **Data packet**, **Parity bit**, **Stop bit**, it is the final stage, regardless of the in the Receiver.
+
+#### Error Check Unit
+
+This unit is indispensable, noise is everywhere and it is most likely that at some time the data will get affected by it, thus we always need some sort of confirmation that the data is sent correctly, if not it will be re-sent. This unit supports three error flags:
+
+1.  **Parity Error**: re-checks the data sent by the Tx unit, produces a parity bit, then compares it with the one from the *DeFrame* unit, it rises to logic 1 if they are not equal.
+2.  **Start Error**: re-checks the start bit, whether it equals logic 0 or not, it rises to logic 1 if they are not equal.
+3.  **Stop Error**: re-checks the start bit, whether it equals logic 1 or not, it rises to logic 1 if they are not equal.
 
