@@ -28,7 +28,7 @@ After the receiving UART reads the data frame, it counts the number of bits with
 
 When the parity bit matches the data, the UART knows that the transmission was free of errors. But if the parity bit is a 0, and the total is odd, or the parity bit is a 1, and the total is even, the UART knows that bits in the data frame have changed.<br />
 
-###Stop Bits
+### Stop Bits
 To signal the end of the data packet, the sending UART drives the data transmission line from a low voltage to a high voltage for one (1) to two (2) bit(s) duration.<br />
 
 
