@@ -1,4 +1,3 @@
-
 // Baudrate generator Module (for Transmitter) : Calculations done for 50MHz clock frequency
 
 module BaudGenT(
